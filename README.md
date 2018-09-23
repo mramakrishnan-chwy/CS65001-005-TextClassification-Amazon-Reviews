@@ -1,6 +1,6 @@
-Independent Project 1: Text Classification
-CS5001-005 Natural Language Processing
-Project Report
+# Independent Project 1: Text Classification
+## CS5001-005 Natural Language Processing
+### Project Report
 
 
 The central goal of the project is to predict the classification for Amazon Reviews. I tried Perceptron and Logistic Regression algorithms as follows,
