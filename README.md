@@ -1,14 +1,20 @@
 Independent Project 1: Text Classification
 CS5001-005 Natural Language Processing
 Project Report
+
+
 The central goal of the project is to predict the classification for Amazon Reviews. I tried Perceptron and Logistic Regression algorithms as follows,
+
 Reading the Input data:
 	Each of the datasets (train/dev/test) were read-in using readlines() function and were stored as an array. Basic clean like striping unexpected characters, removing white spaces and other special characters from the data. The data was also converted into lower case to have consistent formatting
+
 
 Perceptron Method:
 Creating Vocabulary (from scratch):
 The vocabulary had to be created manually without using any in-build function. First the words were tokenized and a dictionary ‘dict_word_counts’ was created with keys as the words and values as the number of occurrences of each word. Based on this dictionary I created a list ‘vocab_list’ which contained only the list of words that occurred for at least 3 times in the entire vocabulary. 
 To create a bag words model I also created another dictionary ‘f_x_dict’ that would store the index of each word in the vocabulary.
+
+
 Feature Function:
 	I created a ‘dynamic’ feature function compatible to create f(x,y) feature matrix for any number of y values (not just [0,1]). For y belonging to {0,1}, my feature vector is of the form
 <a,0>	<and,0>	..	..	..	…	<zeb,0>	<a,1>	<and,1>	..	..	..	..	<zeb,1>
@@ -19,22 +25,21 @@ These are all implemented in ‘feature_function’ function in the code. This f
 mr6rx-bag-of-words.py - bag-of-words representation for each of the Amazon review.
 
 2.1 Thus the feature size was reduced by removing standardizing words with removing white spaces, converting them to lower case and removing words with frequency less than 3. We finally end up with 31756 features (including the features for y =0 and y = 1) and 15878 unique words
+
+
 Perceptron Algorithm:
 	I followed the JE section 2.2.1 to write the code for perceptron and update the theta value accordingly. Theta is initialized with random values for better classification. Functions ‘perceptron’ and ‘predictions’ are used for updating theta value using perceptron implementation and calculating the accuracy respectively. I ran the perceptron algorithm for 10 epochs and observed that the training and dev set accuracy improving with each epoch.
 (Note: The code took about half a minute for each epoch to train and predict)
 
-Result from each epoch,  		Plot showing accuracy across epochs (Red-train; Blue-Dev)
- 			  
-
 Is it seen that the accuracy saturates at around 85% for dev dataset for 3 epochs increases slightly with increase in epochs
+
+
 Averaged Perceptron Algorithm:
 		I followed the JE section 2.2.2 to write the code for perceptron and update the theta value accordingly. This is very similar to the perceptron implementation, but the theta value is added continuously to another variable m at the end of each time step. Finally, after all the epochs, the m value is divided by the number of time steps in total. 
 Result from each epoch, 		    Plot showing accuracy across epochs (Red-train; Blue-Dev)
-  		 
-
-Is it seen that the accuracy saturates at 85.5% for dev dataset and never increases with increase in epochs.
 
 Logistic Regression
+
 The input data train_data, dev_data and test_data were used for performing the following steps.
 
 1)	Default Settings:
@@ -53,17 +58,17 @@ The classification accuracy for Dev set: 90.4%
 Now, I changed the regularization parameter c ( = 1/lambda) for L2 regularization in the LogisticRegression function. Following are the statistics after the change,
 
 Lambda	Training Accuracy (%)	Dev Accuracy (%)
-10^ -4	100	89.38
-10^ -3	100	89.8
-10^ -2	100	90.27
-10^ -1	100	90.31
-1	99.99	90.4
-10	99.37	90.5
-100	94.45	89.47
-5	99.79	90.61
-15	98.92	90.42
-20	98.43	90.29
-30	97.58	90.13
+10^ -4	100			89.38
+10^ -3	100			89.8
+10^ -2	100			90.27
+10^ -1	100			90.31
+1	99.99			90.4
+10	99.37			90.5
+100	94.45			89.47
+5	99.79			90.61
+15	98.92			90.42
+20	98.43			90.29
+30	97.58			90.13
 
 
 4)	L1 Regularization:
@@ -73,18 +78,19 @@ L1 regularization uses a slightly different loss function when compared to L2. i
  So, the theta will try to move towards the centers of both the contours based on the weights. However, it will settle in between the two regions and it is seen that the nearest point for L1 contour lies on w2 axis which means w1 is zero. Therefore, while trying to settle in between the two regions, theta will find an optimal point in the w2 axis because of which w1 will turn out to be zero. 
  Thus, at higher dimensions similar situation happens and many other weights become zero and hence we end up with a sparse solution as compared to L2.
 
+
 •	I changed the regularization parameter c (= 1/lambda) for L1 regularization in the LogisticRegression function. Following are the statistics after the change,
 
 Lambda	Training Accuracy (%)	Dev Accuracy (%)
-0.1	100	89.19
-1	99.12	89.62
-5	93.3	90
-8	91.84	89.39
-10	91.23	89.23
-15	90.1	88.57
-20	89.26	88.03
-30	87.95	87.16
-50	86.17	85.33
+0.1	100			89.19
+1	99.12			89.62
+5	93.3			90
+8	91.84			89.39	
+10	91.23			89.23
+15	90.1			88.57
+20	89.26			88.03
+30	87.95			87.16
+50	86.17			85.33
 
 
 5)	Getting the Best Model:
@@ -92,6 +98,7 @@ To get the best model I tried the following options,
 •	Rich features: Created a rich feature set. Created uni-gram, bi-gram, tri-gram and four-gram models. Also, I removed words with frequency less than 2.
 •	Regularization: Analyzing the values of lambda from the previous steps, I narrowed down the range to the values 1 to 10. Also, based on the experimentation between L1 and L2, L2 seemed to perform better over L1 in this case.
 •	Optimization methods: Using the LogisticRegression from sklearn I tried various optimization options apart from lib-linear. 
+
 
 The best model has the following parameters,
 •	n_gram_range = c(1,4) 
@@ -101,6 +108,7 @@ The best model has the following parameters,
 
 Training set accuracy: 99.87%
 Dev set accuracy : 90.77%
+
 
 The model was selected based on the highest value on dev set based on the following observations, 
 
